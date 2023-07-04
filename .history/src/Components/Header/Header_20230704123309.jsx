@@ -67,7 +67,7 @@ function Header() {
         <div className={styles.categories}>
           Categories <p className={styles.down}></p>
           <div className={styles.category_dropdown}>
-            <p>{data.length > 0 ? data.map((e) => e.name+"\n") : "Loading..."}</p>
+            {data.length > 0 ? data.map((e) => e.name+"/n") : "Loading..."}
           </div>
         </div>
         <div>Promo</div>

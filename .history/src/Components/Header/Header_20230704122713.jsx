@@ -13,15 +13,15 @@ function Header() {
             parentId: 7,
           }
         );
-        setData(response.data.data.categories);
-        console.log(response.data);
+        setData(response.data);
+        console.log(response);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [data]);
 
   return (
     <div className={styles.root}>
@@ -67,7 +67,7 @@ function Header() {
         <div className={styles.categories}>
           Categories <p className={styles.down}></p>
           <div className={styles.category_dropdown}>
-            <p>{data.length > 0 ? data.map((e) => e.name+"\n") : "Loading..."}</p>
+            {data.length>0?data.map((e)=>e.categories.name):"Loading..."}
           </div>
         </div>
         <div>Promo</div>

@@ -13,7 +13,7 @@ function Header() {
             parentId: 7,
           }
         );
-        setData(response.data.data.categories);
+        setData(response.data.data);
         console.log(response.data);
       } catch (error) {
         console.error(error);
@@ -67,7 +67,7 @@ function Header() {
         <div className={styles.categories}>
           Categories <p className={styles.down}></p>
           <div className={styles.category_dropdown}>
-            <p>{data.length > 0 ? data.map((e) => e.name+"\n") : "Loading..."}</p>
+            {data.length > 0 ? data.map((e) => e.name) : "Loading..."}
           </div>
         </div>
         <div>Promo</div>

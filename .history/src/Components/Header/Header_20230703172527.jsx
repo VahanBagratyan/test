@@ -1,28 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./header.module.css";
-import axios from "axios";
 
 function Header() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let response = await axios.post(
-          "https://apishop.yerevan-city.am/api/Category/GetParentCategories",
-          {
-            parentId: 7,
-          }
-        );
-        setData(response.data.data.categories);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  const [isHovered, setIsHovered] = useState(1);
+  console.log(isHovered);
   return (
     <div className={styles.root}>
       <div className={styles.first_layer}>
@@ -43,6 +24,7 @@ function Header() {
             <h1 className={styles.dram}>AMD</h1>
             <p className={styles.down}></p>
           </div>
+
           <div className={styles.country_dropdown}>
             <div className={styles.flag}>
               <img
@@ -55,32 +37,42 @@ function Header() {
             <p className={styles.down}></p>
           </div>
           <p>Sign In</p>
-          <img
-            src="/images/icons/favorite.svg"
-            alt=""
-            className={styles.icon}
-          />
+          <img src="/images/icons/favorite.svg" alt="" className={styles.icon} />
           <img src="/images/icons/card.svg" alt="" className={styles.icon} />
         </div>
       </div>
       <div className={styles.menu}>
-        <div className={styles.categories}>
-          Categories <p className={styles.down}></p>
-          <div className={styles.category_dropdown}>
-            <p>{data.length > 0 ? data.map((e) => e.name+"\n") : "Loading..."}</p>
-          </div>
+        <div
+          className={styles.categories}
+          onMouseOver={() => setIsHovered(2)}  onMouseLeave={() =>isHovered==2? setTimeout(() => setIsHovered(12), 1000):null}>
+          Categories <p
+            className={
+                isHovered>1
+                  ? styles.up
+                  : styles.down
+              } 
+            ></p>
+          <div
+        className={
+            isHovered >1
+              ? styles.category_dropdownOpened
+              : styles.category_dropdownClosed
+          }
+          onMouseLeave={() => setIsHovered(3)}
+          ></div>
         </div>
-        <div>Promo</div>
 
-        <div>Tenders</div>
+        <div>Gev</div>
 
-        <div>Careers</div>
+        <div>Gev</div>
 
-        <div>Our Shop</div>
+        <div>Gev</div>
 
-        <div>About us</div>
+        <div>Gev</div>
 
-        <div>Partnership</div>
+        <div>Gev</div>
+
+        <div>Gev</div>
       </div>
     </div>
   );
