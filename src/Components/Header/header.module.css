@@ -33,13 +33,15 @@
     z-index: 1;
     background: white;
     box-shadow: 0 0 10px rgba(0,0,0,.1);
+    transition: .5s;
 }
 .search_content{
     height: 100%;
     width: 100%;
 }
 .search_field:focus + .search_box{
-    height: 50%;
+    box-sizing: border-box;
+    height: 60%;
 }
 
 .search_field{
@@ -163,10 +165,12 @@
     display: flex;
     margin-top: 40px;
     position: absolute;
-    width: 1000px;
+    width: 60%;
     height: 0;
     transition: 0.5s;
     transition-delay:0.5s;
+    z-index: 1;
+    background-color: white;
 }
 
 .categories:hover .category_dropdown{
@@ -196,6 +200,7 @@
 }
 
 .right_menu{
+    display: grid;
     cursor: default;
     overflow-y:scroll;
     width: 70%;

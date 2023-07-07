@@ -8,7 +8,7 @@ function Header() {
   const [id, setId] = useState(36);
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,14 +60,13 @@ function Header() {
               search: searchValue,
             }
           );
-          setLoader(false)
+          setLoader(false);
           setSearchResult(response.data.data.products);
         }
       } catch (error) {
         console.error(error);
       }
     }, 500);
-
 
     return () => {
       clearTimeout(timeout);
@@ -86,24 +85,34 @@ function Header() {
               className={styles.search_field}
               onChange={(evt) => {
                 setSearchValue(evt.target.value);
-                setLoader(true)
+                setLoader(true);
               }}
             />
             <div className={styles.search_box}>
               <div className={styles.search_content}>
-                {searchResult.length > 0 && !loader ? (
+                {searchValue.length <= 0 ? (
+                  <div>Hot Deals</div>
+                ) : searchResult.length > 0 && !loader ? (
                   searchResult.map((data) => {
                     return (
                       <div className={styles.search_item}>
-                        <img src={data.photo} alt="item" className={styles.search_item_img}/>
+                        <img
+                          src={data.photo}
+                          alt="item"
+                          className={styles.search_item_img}
+                        />
                         <div>
-                          <p>{data.price } <span className={styles.dram}>֏</span></p>
+                          <p>
+                            {data.price} <span className={styles.dram}>֏</span>
+                          </p>
                           <br />
                           <p>{data.name}</p>
                         </div>
                       </div>
                     );
                   })
+                ) : searchResult.length <= 0 && !loader? (
+                  <div>No Element found</div>
                 ) : (
                   <Loader />
                 )}
