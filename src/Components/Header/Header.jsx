@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./header.module.css";
 import axios from "axios";
 import Loader from "../Loader/Loader";
+import { slide as Menu } from 'react-burger-menu';
+
 function Header() {
   const [data, setData] = useState([]);
   const [dataChild, setDataChild] = useState([]);
@@ -9,6 +11,7 @@ function Header() {
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [searchRec, setSearchRec] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -73,11 +76,33 @@ function Header() {
     };
   }, [searchValue]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await axios.get(
+          "https://apishop.yerevan-city.am/api/Page/Get?type=2",
+          {
+            headers: {
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZDMwOWE3Yi04M2E0LTQ2OTUtODJjOC03MTQ4NjcyZWU5ODIiLCJ1bmlxdWVfbmFtZSI6IjE2ODgzNzUwNzUwNTJNbUFQTVlwIiwianRpIjoiM2VhZWRkMjctZDNhNy00MzNkLWI0MGItOGU4ZGViZDA1YjU4IiwiaWF0IjoxNjg4Mzc1MjI4LCJuYmYiOjE2ODgzNzUyMjgsImV4cCI6MTY5NzAxNTIyOCwiaXNzIjoid2ViQXBpIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAyLyJ9._Q0V2d1Ijh6glLBiuHOKaGpjSuy4fZPoDqKjwDco3Ao`,
+            },
+          }
+        );
+        setSearchRec(response.data.data.specialItems[0].products);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className={styles.root}>
       <div className={styles.first_layer}>
         <div className={styles.logo_search_container}>
-          <img src="images/logo.svg" alt="logo" className={styles.logo} />
+          <a href="http://localhost:3000" className={styles.logo}>
+            <img src="/images/logo.svg" alt="logo" height={100 + "%"} />
+          </a>
           <div className={styles.search}>
             <input
               type="text"
@@ -91,7 +116,21 @@ function Header() {
             <div className={styles.search_box}>
               <div className={styles.search_content}>
                 {searchValue.length <= 0 ? (
-                  <div>Hot Deals</div>
+                  <div>
+                    <h1 className={styles.frequently_searched_title}>
+                      Frequently searched
+                    </h1>
+                    <div className={styles.frequently_searched_box}>
+                      {searchRec.map((data) => {
+                        return (
+                          <div className={styles.frequently_searched}>
+                            <img src={data.photo} alt="" height={100 + "%"} />
+                            <div>{data.name}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 ) : searchResult.length > 0 && !loader ? (
                   searchResult.map((data) => {
                     return (
@@ -111,8 +150,8 @@ function Header() {
                       </div>
                     );
                   })
-                ) : searchResult.length <= 0 && !loader? (
-                  <div>No Element found</div>
+                ) : searchResult.length <= 0 && !loader ? (
+                  <h1 className={styles.no_element_found}>No Element found</h1>
                 ) : (
                   <Loader />
                 )}
@@ -124,7 +163,7 @@ function Header() {
           <div className={styles.country_dropdown}>
             <div className={styles.flag}>
               <img
-                src="images/flags/armenia.png"
+                src="/images/flags/armenia.png"
                 alt="flag"
                 className={styles.flag_img}
               />
@@ -136,7 +175,7 @@ function Header() {
           <div className={styles.country_dropdown}>
             <div className={styles.flag}>
               <img
-                src="images/flags/britain.png"
+                src="/images/flags/britain.png"
                 alt="flag"
                 className={styles.flag_img}
               />
@@ -161,12 +200,17 @@ function Header() {
               {data.length > 0 ? (
                 data.map((e) => {
                   return (
-                    <div
-                      className={styles.category_item}
-                      onMouseOver={() => setId(e.id)}
+                    <a
+                      href={"http://localhost:3000/products/" + e.id}
+                      className={styles.link}
                     >
-                      {e.name}
-                    </div>
+                      <div
+                        className={styles.category_item}
+                        onMouseOver={() => setId(e.id)}
+                      >
+                        {e.name}
+                      </div>
+                    </a>
                   );
                 })
               ) : (
@@ -178,11 +222,23 @@ function Header() {
                 dataChild.map((e) => {
                   return (
                     <div className={styles.subtitle_block}>
-                      <div className={styles.subtitle}>{e.name}</div>
+                      <a
+                        href={"http://localhost:3000/products/" + e.id}
+                        className={styles.link}
+                      >
+                        <div className={styles.subtitle}>{e.name}</div>
+                      </a>
                       <div>
                         {e.children.map((item) => {
                           return (
-                            <p className={styles.subtitle_item}>{item.name}</p>
+                            <a
+                              href={"http://localhost:3000/products/" + item.id}
+                              className={styles.link}
+                            >
+                              <p className={styles.subtitle_item}>
+                                {item.name}
+                              </p>
+                            </a>
                           );
                         })}
                       </div>

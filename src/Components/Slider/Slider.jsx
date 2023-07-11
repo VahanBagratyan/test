@@ -56,16 +56,18 @@ const SliderComp = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
   return (
-    <div className={styles.slider_root} >
-      <Slider {...settings} >
+    <div className={styles.slider_root}>
+      <Slider {...settings}>
         {data.map((element) => {
           // console.log(element.path);
           return (
-            <div className={styles.slider_item} >
+            <div className={styles.slider_item}>
               <img src={element.path} alt="" className={styles.slider_img} />
             </div>
           );
