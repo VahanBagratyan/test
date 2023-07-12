@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./header.module.css";
 import axios from "axios";
-import { slide as Menu } from 'react-burger-menu';
-
-//Compoenents
-import MenuBar from "../Menu/Menu"
 import Loader from "../Loader/Loader";
-
+import { slide as Menu } from 'react-burger-menu';
 
 function Header() {
   const [data, setData] = useState([]);
@@ -196,11 +192,105 @@ function Header() {
           <img src="/images/icons/card.svg" alt="" className={styles.icon} />
         </div>
       </div>
-      <div className={styles.menu_root}>
-        <MenuBar />
+      <div className={styles.menu}>
+        <div className={[styles.categories, styles.menu_item].join(" ")}>
+          Categories <p className={styles.down}></p>
+          <div className={styles.category_dropdown}>
+            <div className={styles.scroll_bar}>
+              {data.length > 0 ? (
+                data.map((e) => {
+                  return (
+                    <a
+                      href={"http://localhost:3000/products/" + e.id}
+                      className={styles.link}
+                    >
+                      <div
+                        className={styles.category_item}
+                        onMouseOver={() => setId(e.id)}
+                      >
+                        {e.name}
+                      </div>
+                    </a>
+                  );
+                })
+              ) : (
+                <Loader />
+              )}
+            </div>
+            <div className={styles.right_menu}>
+              {dataChild.length > 0 ? (
+                dataChild.map((e) => {
+                  return (
+                    <div className={styles.subtitle_block}>
+                      <a
+                        href={"http://localhost:3000/products/" + e.id}
+                        className={styles.link}
+                      >
+                        <div className={styles.subtitle}>{e.name}</div>
+                      </a>
+                      <div>
+                        {e.children.map((item) => {
+                          return (
+                            <a
+                              href={"http://localhost:3000/products/" + item.id}
+                              className={styles.link}
+                            >
+                              <p className={styles.subtitle_item}>
+                                {item.name}
+                              </p>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <Loader />
+              )}
+            </div>
+            <div className={styles.image_container}>
+              {data.length > 0 ? (
+                data
+                  .filter((e) => e.id === id)
+                  .map((a) => {
+                    return (
+                      <img
+                        className={styles.image}
+                        src={a.photo}
+                        alt="menu image"
+                      />
+                    );
+                  })
+              ) : (
+                <Loader />
+              )}
+            </div>
+          </div>
+        </div>
+        <Menu menuButton={<MenuButton>Open menu</MenuButton>}>
+        <div className={styles.menu_item}>Promo</div>
+
+        <div className={styles.menu_item}>Tenders</div>
+
+        <div className={styles.menu_item}>Careers</div>
+
+        <div className={styles.menu_item}>Our Shop</div>
+
+        <div className={styles.menu_item}>About us</div>
+
+        <div className={styles.menu_item}>Partnership</div>
+        <MenuItem>New File</MenuItem>
+      <MenuItem>Save</MenuItem>
+      <SubMenu label="Edit">
+        <MenuItem>Cut</MenuItem>
+        <MenuItem>Copy</MenuItem>
+        <MenuItem>Paste</MenuItem>
+      </SubMenu>
+      <MenuItem>Print...</MenuItem>
+    </Menu>
       </div>
     </div>
-
   );
 }
 

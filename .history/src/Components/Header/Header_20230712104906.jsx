@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./header.module.css";
 import axios from "axios";
+import Loader from "../Loader/Loader";
 import { slide as Menu } from 'react-burger-menu';
 
 //Compoenents
 import MenuBar from "../Menu/Menu"
-import Loader from "../Loader/Loader";
 
 
 function Header() {

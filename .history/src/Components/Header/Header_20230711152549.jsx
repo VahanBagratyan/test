@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./header.module.css";
 import axios from "axios";
-import { slide as Menu } from 'react-burger-menu';
-
-//Compoenents
-import MenuBar from "../Menu/Menu"
 import Loader from "../Loader/Loader";
-
+import { slide as Menu } from "react-burger-menu";
+import "./style.css";
 
 function Header() {
   const [data, setData] = useState([]);
@@ -16,10 +13,15 @@ function Header() {
   const [searchResult, setSearchResult] = useState([]);
   const [loader, setLoader] = useState(false);
   const [searchRec, setSearchRec] = useState([]);
+  const [size, setSize] = useState({
+    x: window.innerWidth,
+    y: window.innerHeight,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await axios.post(
+        const response = await axios.post(
           "https://apishop.yerevan-city.am/api/Category/GetParentCategories",
           {
             parentId: 7,
@@ -37,7 +39,7 @@ function Header() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await axios.post(
+        const response = await axios.post(
           "https://apishop.yerevan-city.am/api/Category/GetAllChildren",
           {
             parentId: id,
@@ -58,10 +60,10 @@ function Header() {
   }, [id]);
 
   useEffect(() => {
-    let timeout = setTimeout(async () => {
+    const timeout = setTimeout(async () => {
       try {
         if (searchValue.length > 0) {
-          let response = await axios.post(
+          const response = await axios.post(
             "https://apishop.yerevan-city.am/api/Product/Search",
             {
               search: searchValue,
@@ -83,7 +85,7 @@ function Header() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await axios.get(
+        const response = await axios.get(
           "https://apishop.yerevan-city.am/api/Page/Get?type=2",
           {
             headers: {
@@ -100,6 +102,21 @@ function Header() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({
+        x: window.innerWidth,
+        y: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className={styles.root}>
       <div className={styles.first_layer}>
@@ -108,7 +125,7 @@ function Header() {
             <img src="/images/logo.svg" alt="logo" height={100 + "%"} />
           </a>
           <div className={styles.search}>
-            <input
+            {size><input
               type="text"
               placeholder="Search"
               className={styles.search_field}
@@ -196,11 +213,99 @@ function Header() {
           <img src="/images/icons/card.svg" alt="" className={styles.icon} />
         </div>
       </div>
-      <div className={styles.menu_root}>
-        <MenuBar />
-      </div>
-    </div>
+      {size.x > 760 && (
+        <div className={styles.menu}>
+          <div className={[styles.categories, styles.menu_item].join(" ")}>
+            Categories <p className={styles.down}></p>
+            <div className={styles.category_dropdown}>
+              <div className={styles.scroll_bar}>
+                {data.length > 0 ? (
+                  data.map((e) => {
+                    return (
+                      <a
+                        href={"http://localhost:3000/products/" + e.id}
+                        className={styles.link}
+                      >
+                        <div
+                          className={styles.category_item}
+                          onMouseOver={() => setId(e.id)}
+                        >
+                          {e.name}
+                        </div>
+                      </a>
+                    );
+                  })
+                ) : (
+                  <Loader />
+                )}
+              </div>
+              <div className={styles.right_menu}>
+                {dataChild.length > 0 ? (
+                  dataChild.map((e) => {
+                    return (
+                      <div className={styles.subtitle_block}>
+                        <a
+                          href={"http://localhost:3000/products/" + e.id}
+                          className={styles.link}
+                        >
+                          <div className={styles.subtitle}>{e.name}</div>
+                        </a>
+                        <div>
+                          {e.children.map((item) => {
+                            return (
+                              <a
+                                href={
+                                  "http://localhost:3000/products/" + item.id
+                                }
+                                className={styles.link}
+                              >
+                                <p className={styles.subtitle_item}>
+                                  {item.name}
+                                </p>
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <Loader />
+                )}
+              </div>
+              <div className={styles.image_container}>
+                {data.length > 0 ? (
+                  data
+                    .filter((e) => e.id === id)
+                    .map((a) => {
+                      return (
+                        <img
+                          className={styles.image}
+                          src={a.photo}
+                          alt="menu image"
+                        />
+                      );
+                    })
+                ) : (
+                  <Loader />
+                )}
+              </div>
+            </div>
+          </div>
+          <div className={styles.menu_item}>Promo</div>
 
+          <div className={styles.menu_item}>Tenders</div>
+
+          <div className={styles.menu_item}>Careers</div>
+
+          <div className={styles.menu_item}>Our Shop</div>
+
+          <div className={styles.menu_item}>About us</div>
+
+          <div className={styles.menu_item}>Partnership</div>
+        </div>
+      )}
+    </div>
   );
 }
 
