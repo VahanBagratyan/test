@@ -192,6 +192,7 @@ function Header() {
           <img src="/images/icons/card.svg" alt="" className={styles.icon} />
         </div>
       </div>
+      <div className={styles.menu_root}>
       <div className={styles.menu}>
         <div className={[styles.categories, styles.menu_item].join(" ")}>
           Categories <p className={styles.down}></p>
@@ -279,6 +280,7 @@ function Header() {
         <div className={styles.menu_item}>About us</div>
 
         <div className={styles.menu_item}>Partnership</div>
+      </div>
       </div>
     </div>
   );

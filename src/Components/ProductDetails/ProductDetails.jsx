@@ -33,13 +33,20 @@ const ProductDetails = () => {
       <div className={styles.product_info}>
         <div className={styles.product_img_box}>
           <img
-            src="https://mediaapi.kitrons.com/api/Image/Resize/ProductPhoto/1130533.png"
+            src={product.photo}
             alt=""
             className={styles.product_img}
           />
         </div>
         <div className={styles.product_text}>
-          <p>{product.name}</p>
+          <h1>{product.name}</h1>
+          <p>{product.price} ֏</p>
+          <div className={styles.add_to_cart}>Add to cart</div>
+          <div className={styles.product_details}>
+            <h1>Details</h1>
+            <p>Produced in: &nbsp;{product.country}</p> <br />
+            <p>Manufacturer: &nbsp;{product.manufacturer}</p>
+          </div>
         </div>
       </div>
     </div>

@@ -113,6 +113,7 @@
   margin-left: 50px;
   height: 40px;
   width: 80%;
+  min-width: 170px;
 }
 
 .search_field:focus {
@@ -182,13 +183,16 @@
 
 .menu {
   display: flex;
-  width: 50%;
+  width: 100%;
   font-size: 15px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: start;
 }
-
+*{
+  box-sizing: border-box;
+}
 .menu_item {
+  margin-right:3%;
 }
 
 .category_dropdown {

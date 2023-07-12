@@ -46,22 +46,30 @@ const Products = () => {
         products.map((item) => (
           <div className={styles.products_box}>
             <div className={styles.products_img_box}>
-              <img
-                src={item.photo}
-                className={styles.products_img}
-                onError={(e) => {
-                  e.target.src = "/images/logo.svg";
-                  e.target.style.height = "50%";
-                  e.target.style.width = "50%";
-                  e.target.style.marginTop = "20%";
-                }}
-              />
+              <div className={styles.image_wrapper}>
+                <img
+                  src={item.photo}
+                  className={styles.products_img}
+                  onError={(e) => {
+                    e.target.src = "/images/logo-small.png";
+                  }}
+                />
+              </div>
+              <a
+                href={"http://localhost:3000/productdetails/" + item.id}
+                className={styles.leran_more}
+              >
+                Learn More
+              </a>
             </div>
+
             <div className={styles.product_name_box}>
               <p>{item.name}</p>
             </div>
             <p>{item.price} ֏</p>
-            <div className={styles.add_to_cart}>Add To Cart</div>
+            <div className={styles.add_to_cart}>
+              <p>Add To Cart</p>
+            </div>
           </div>
         ))
       ) : (
