@@ -5,8 +5,27 @@ import Loader from "../Loader/Loader";
 import { categories } from "../../utils/data/data";
 
 const MenuBar = () => {
+  const [data, setData] = useState([]);
   const [dataChild, setDataChild] = useState([]);
   const [id, setId] = useState(36);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await axios.post(
+          "https://apishop.yerevan-city.am/api/Category/GetParentCategories",
+          {
+            parentId: 7,
+          }
+        );
+        setData(response.data.data.categories);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -90,7 +109,7 @@ const MenuBar = () => {
             </div>
             <div className={styles.image_container}>
               {categories.length > 0 ? (
-                categories
+                data
                   .filter((e) => e.id === id)
                   .map((a) => {
                     return (

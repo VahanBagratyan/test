@@ -11,6 +11,24 @@ const MenuBar = () => {
     const fetchData = async () => {
       try {
         let response = await axios.post(
+          "https://apishop.yerevan-city.am/api/Category/GetParentCategories",
+          {
+            parentId: 7,
+          }
+        );
+        setData(response.data.data.categories);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await axios.post(
           "https://apishop.yerevan-city.am/api/Category/GetAllChildren",
           {
             parentId: id,

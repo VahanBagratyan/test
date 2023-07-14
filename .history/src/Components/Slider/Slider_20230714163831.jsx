@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import styles from "./slider.module.css";
 import "./slider.css";
 import axios from "axios";
-import {baners} from "../../utils/data/data"
+import {slider} from "../../utils/data/data"
 
 const SliderComp = () => {
 

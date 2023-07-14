@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import styles from "./slider.module.css";
 import "./slider.css";
 import axios from "axios";
-import {baners} from "../../utils/data/data"
+import {data} from "../../utils/data/data"
 
 const SliderComp = () => {
 
@@ -47,7 +47,7 @@ const SliderComp = () => {
   return (
     <div className={styles.slider_root}>
       <Slider {...settings}>
-        {baners.map((element) => {
+        {data.map((element) => {
           return (
             <div className={styles.slider_item}>
               <img src={element.path} alt="" className={styles.slider_img} />
