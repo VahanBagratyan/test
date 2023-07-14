@@ -19,7 +19,7 @@ const SliderComp = () => {
           {
             headers: {
               Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZDMwOWE3Yi04M2E0LTQ2OTUtODJjOC03MTQ4NjcyZWU5ODIiLCJ1bmlxdWVfbmFtZSI6IjE2ODgzNzUwNzUwNTJNbUFQTVlwIiwianRpIjoiM2VhZWRkMjctZDNhNy00MzNkLWI0MGItOGU4ZGViZDA1YjU4IiwiaWF0IjoxNjg4Mzc1MjI4LCJuYmYiOjE2ODgzNzUyMjgsImV4cCI6MTY5NzAxNTIyOCwiaXNzIjoid2ViQXBpIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAyLyJ9._Q0V2d1Ijh6glLBiuHOKaGpjSuy4fZPoDqKjwDco3Ao`,
-            },
+            }
           }
         );
         setData(response.data.data.banners);
@@ -33,7 +33,7 @@ const SliderComp = () => {
     return (
       <div
         className={className}
-        style={{ display: "block", marginRight: "55px" }}
+        style={{display: "block", marginRight: "55px" }}
         onClick={onClick}
       />
     );
@@ -41,10 +41,11 @@ const SliderComp = () => {
 
   function SamplePrevArrow(props) {
     const { className, style, onClick } = props;
+    console.log(className );
     return (
       <div
         className={className}
-        style={{ ...style, display: "block", left: "0", zIndex: "1" }}
+        style={{ left: "7px", zIndex: "1"}}
         onClick={onClick}
       />
     );
@@ -53,19 +54,19 @@ const SliderComp = () => {
   const settings = {
     dots: true,
     infinite: true,
+    lazyLoad: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    prevArrow: <SamplePrevArrow />
   };
   return (
     <div className={styles.slider_root}>
       <Slider {...settings}>
         {data.map((element) => {
-          // console.log(element.path);
           return (
             <div className={styles.slider_item}>
               <img src={element.path} alt="" className={styles.slider_img} />
